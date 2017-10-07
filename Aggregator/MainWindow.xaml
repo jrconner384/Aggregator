@@ -1,0 +1,22 @@
+﻿<Window x:Class="Aggregator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Aggregator"
+        mc:Ignorable="d"
+        Title="Data Parser" Height="166.594" Width="390.502">
+    <Grid>
+        <Label x:Name="criteriaLabel" Content="Criteria:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="directoryLabel" Content="Directory:" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label" Content="Export to:" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="criteriaTextBox" HorizontalAlignment="Left" Height="23" Margin="93,13,0,0" TextWrapping="Wrap" Text="Enter search criteria" VerticalAlignment="Top" Width="228" GotFocus="criteriaTextBox_GotFocus"/>
+        <TextBox x:Name="directoryTextBox" HorizontalAlignment="Left" Height="23" Margin="93,44,0,0" TextWrapping="Wrap" Text="Path to TXT files" VerticalAlignment="Top" Width="228" GotFocus="directoryTextBox_GotFocus"/>
+        <Button x:Name="directoryButton" Content="..." Margin="326,45,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="42" Click="directoryButton_Click"/>
+        <RadioButton x:Name="csvRadioButton" Content="CSV" HorizontalAlignment="Left" Margin="93,77,0,0" VerticalAlignment="Top" GroupName="format" IsChecked="True"/>
+        <RadioButton x:Name="txtRadioButton" Content="TXT" HorizontalAlignment="Left" Margin="137,77,0,0" VerticalAlignment="Top" GroupName="format"/>
+        <RadioButton x:Name="xlsRadioButton" Content="XLS" HorizontalAlignment="Left" Margin="180,77,0,0" VerticalAlignment="Top" GroupName="format"/>
+        <Button x:Name="goButton" Content="Go" Margin="0,0,7,10" HorizontalAlignment="Right" Width="75" Height="22" VerticalAlignment="Bottom" Click="goButton_Click"/>
+
+    </Grid>
+</Window>
