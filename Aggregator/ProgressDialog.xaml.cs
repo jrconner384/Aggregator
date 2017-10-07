@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Media;
-using Microsoft.Isam.Esent.Collections.Generic;
 
 namespace Aggregator
 {
@@ -17,8 +16,7 @@ namespace Aggregator
         private readonly string searchCriteria;
         private readonly string outputFileName;
         private readonly DateTime startTime;
-        private readonly string resultsDirectory;
-        private DateTime endTime;
+        private readonly List<string> results;
 
         private int numFiles;
 
@@ -30,8 +28,8 @@ namespace Aggregator
         {
             InitializeComponent();
             Console.SetOut(new ProgressPanel(progressTextBox));
-            resultsDirectory = $"Aggregator-{DateTime.Now.ToLongTimeString()}";
             startTime = DateTime.Now;
+            results = new List<string>();
         }
 
         public ProgressDialog(string path, string criteria, string format)
@@ -77,13 +75,7 @@ namespace Aggregator
         {
             WriteInfo($"Parsing {filename}.");
             FileParser parser = new FileParser(filename, searchCriteria);
-            using (var results = new PersistentDictionary<string, string>(resultsDirectory))
-            {
-                foreach (string s in parser.Parse())
-                {
-                    results.Add(resultsDirectory, s);
-                }
-            }
+            results.AddRange(parser.Parse());
         }
         #endregion Service calls
 
@@ -105,15 +97,11 @@ namespace Aggregator
 
         private void WriteSummary()
         {
-            int count;
-            using (var results = new PersistentDictionary<string, string>(resultsDirectory))
-            {
-                count = results.Values.Count;
-            }
-            endTime = DateTime.Now;
-            StringBuilder summary = new StringBuilder($"Summary: {numFiles} .txt files parsed for lines containing \"{searchCriteria}\".");
-            summary.AppendLine($"Found {count} matches in {numFiles} files.");
-            summary.AppendLine($"Completed in {endTime.Subtract(startTime):s} seconds.");
+            StringBuilder summary = new StringBuilder();
+            summary.AppendLine("Summary:");
+            summary.AppendLine($"\t{numFiles} .txt files parsed for lines containing \"{searchCriteria}\".");
+            summary.AppendLine($"\tFound {results.Count} matches in {numFiles} files.");
+            summary.AppendLine($"\tCompleted in {DateTime.Now.Subtract(startTime).TotalSeconds} seconds.");
             progressTextBox.WriteLineInColor(summary.ToString(), Brushes.Green);
         }
         #endregion Writers
